@@ -1,0 +1,181 @@
+<% layout("/layouts/boilerplate") -%>
+<body>
+    <div class="container" style="max-width: 100%;">
+
+        <% if (currUser && currUser.preferences && currUser.preferences.length > 0) { %>
+            <div class="query-container glass-effect text-center">
+                <span class="query-title">Your Personalized News Feed:</span>
+                <div class="query-content mt-2">
+                    <% currUser.preferences.forEach(topic => { %> 
+                        <span class="query-badge badge bg-primary text-white px-3 py-2 me-2 rounded-pill">
+                            <%= topic.trim() %>
+                        </span>
+                    <% }); %>
+                </div>
+            </div>
+        <% } else { %>
+            <div class="query-container glass-effect text-center">
+                <span class="query-title">INDIA - QuickNewsify</span>
+            </div>
+        <% } %>
+        
+        <div class="row g-4">
+            <% for (data of newsData) { %>
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="card h-100 shadow-sm border-0 rounded-4 news-card">
+                        <div class="position-relative">
+                            <a href="/Home/<%= data._id %>">
+                                <div class="image-container">
+                                    <img 
+                                        src="<%= data.urlToImage %>" 
+                                        class="card-img-top img-fluid news-image" 
+                                        alt="News Image">
+                                    <div class="image-overlay"></div>
+                                </div>
+                            </a>
+                            <a href="/Home/bookmarks/<%= data._id %>"> 
+                                <i class="fa-regular fa-bookmark bookmark-icon"></i>
+                            </a>
+                        </div>
+                        
+                        <div class="card-body d-flex flex-column flex-grow-1">
+                            <h5 class="card-title text-truncate" title="<%= data.title %>">
+                                <%= data.title %>
+                            </h5>
+                            <p class="card-text text-muted">
+                                <%= data.description %>
+                            </p>
+                        </div>
+
+                        <div class="text-center mt-4 mb-4">
+                            <a href="/Home/<%= data._id%>" target="_blank" class="btn btn-success btn-discover fw-normal">
+                                Explore Further...
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <style>
+        
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+            max-width: 90%;
+        }
+
+
+        .query-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .query-container {
+            margin-top: 5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .news-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+        .image-container:hover .news-image {
+            transform: scale(1.05); 
+        } 
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.7));
+            border-radius: 12px;
+        }
+        .bookmark-icon {
+            font-size: 1.2rem;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 10px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1), -4px -4px 10px rgba(255, 255, 255, 1);
+            transition: all 0.3s ease;
+        }
+        .bookmark-icon:hover {
+            background: #ff9800;
+            color: white;
+        }
+        .btn-discover {
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            width: 60%;
+        }
+        .btn-discover::before {
+            content: "→";
+            position: absolute;
+            right: -20px;
+            opacity: 0;
+            transition: right 0.3s ease, opacity 0.3s ease;
+        }
+        .btn-discover:hover::before {
+            right: 10px;
+            opacity: 1;
+        }
+        .btn-discover:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+        }
+        .news-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .news-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+
+    @media (max-width: 768px) {
+    .query-container {
+        width: 90%;
+        padding: 12px;
+        text-align: center;
+    }
+
+    .query-title {
+        font-size: 1.3rem; /* Reduce title font size */
+    }
+
+    .query-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px; /* Reduce gap */
+    }
+
+    .query-badge {
+        font-size: 0.8rem; /* Reduce badge font size */
+        padding: 5px 10px;
+        border-radius: 6px;
+    }
+}
+
+
+
+
+    </style>
+</body>

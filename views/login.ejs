@@ -1,0 +1,98 @@
+<% layout("/layouts/boilerplate") -%>
+
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">QuickNewsify</a>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="darkModeSwitch">
+            <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
+        </div>
+    </nav>
+
+    <div class="d-flex flex-column justify-content-center align-items-center mt-4" style="min-height: 80vh;">
+        <div class="card p-4 shadow-lg rounded login-container">
+            <h2 class="text-center text-success mb-4"> QuickNewsify Login</h2>
+
+            <form class="needs-validation" novalidate method="POST" action="/user/login">
+                
+                <div class="form-group mb-4">
+                    <label for="username" class="fw-semibold">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
+                    <small class="form-text text-muted">Your username must be unique.</small>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label for="password" class="fw-semibold">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success w-100 fw-semibold mt-3">Login</button>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <a href="/forgot-password" class="text-decoration-none">Forgot Password?</a> |
+                    <a href="/Home/signup" class="text-decoration-none text-success">Sign Up</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const darkModeToggle = document.getElementById("darkModeSwitch");
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+                darkModeToggle.checked = true;
+            }
+            darkModeToggle.addEventListener("change", function () {
+                document.body.classList.toggle("dark-mode");
+                localStorage.setItem("darkMode", document.body.classList.contains("dark-mode") ? "enabled" : "disabled");
+            });
+        });
+    </script>
+
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #333;
+        }
+        .login-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        .login-container .form-control {
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #ccc;
+        }
+        .login-container .btn {
+            background-color: #28a745;
+            color: white;
+        }
+        .login-container .btn:hover {
+            background-color: #218838;
+        }
+
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .dark-mode .login-container {
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+        }
+        .dark-mode .login-container .form-control {
+            background-color: #333;
+            color: #e0e0e0;
+            border: 1px solid #555;
+        }
+        .dark-mode .login-container .btn {
+            background-color: #28a745;
+        }
+    </style>
+</body>

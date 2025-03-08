@@ -1,0 +1,129 @@
+<% layout("/layouts/boilerplate") -%>
+
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">QuickNewsify</a>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="darkModeSwitch">
+            <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
+        </div>
+    </nav>
+
+    <div class="profile-container mb-3 mt-3 ">
+        <h1 class="profile-title">Profile Settings</h1>
+
+        <!-- currUser Info Section -->
+        <form action="/update-profile" method="POST" class="profile-form">
+            <label class="profile-label">Name:</label>
+            <input type="text" name="name" class="profile-input" value="<%= currUser.name %>" required>
+
+            <label class="profile-label">Email:</label>
+            <input type="email" class="profile-input" value="<%= currUser.email %>" disabled>
+
+            <!-- Daily Digest Checkbox -->
+            <div class="digest-section">
+                <label class="profile-label">Receive Daily News Digest:</label>
+                <input type="checkbox" name="receiveDigest" id="digest-checkbox" <% if (currUser.receiveDigest) { %>checked<% } %>>
+            </div>
+
+            <button type="submit" class="profile-btn">Save Changes</button>
+        </form>
+
+        <!-- Change Password Section -->
+        <form action="/update-password" method="POST" class="password-form">
+            <label class="profile-label">New Password:</label>
+            <input type="password" name="newPassword" class="profile-input" required>
+            <button type="submit" class="profile-btn">Update Password</button>
+        </form>
+
+        <!-- Logout -->
+        <a href="/logout" class="logout-btn">Log Out</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const darkModeToggle = document.getElementById("darkModeSwitch");
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+                darkModeToggle.checked = true;
+            }
+            darkModeToggle.addEventListener("change", function () {
+                document.body.classList.toggle("dark-mode");
+                localStorage.setItem("darkMode", document.body.classList.contains("dark-mode") ? "enabled" : "disabled");
+            });
+        });
+    </script>
+
+    <style>
+        /* Light Mode Styles */
+        body {
+            background-color: #ffffff;
+            color: #333;
+        }
+        .profile-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: auto;
+            text-align: center;
+        }
+        .profile-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        .profile-label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        .profile-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .profile-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .profile-btn:hover {
+            background-color: #218838;
+        }
+        .logout-btn {
+            display: block;
+            margin-top: 20px;
+            color: red;
+            text-decoration: none;
+        }
+        .logout-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .dark-mode .profile-container {
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+        }
+        .dark-mode .profile-input {
+            background-color: #ffffff;
+            color: black;
+            border: 1px solid #555;
+        }
+        .dark-mode .profile-btn {
+            background-color: #28a745;
+        }
+        .dark-mode .profile-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</body>

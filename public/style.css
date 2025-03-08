@@ -1,0 +1,374 @@
+/* body {
+    background-image: url("/lorem.jpg");
+    background-position: top;
+    background-repeat: repeat-y;
+    background-size: 100% 100vh; */
+/* } */
+
+
+
+.logo {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
+
+
+
+.f-info-links a {
+    text-decoration: none;
+    color: #222222;
+}
+
+.f-info-links a:hover {
+    text-decoration: underline;
+}
+
+.f-info {
+    background-color: #ebebeb;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    font-size: 20px;
+}
+
+.f-info-socials {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+li {
+    list-style-type: none;
+}
+
+.custom-h1 {
+    margin-top: 80px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    font-weight: 500;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.fancy-text {
+    font-family: 'Playfair Display', serif;
+    color: #28a745; 
+    letter-spacing: 1px;
+}
+
+.login-form {
+    margin-top: 80px;
+}
+
+
+
+
+
+/* signup  */
+
+/* Signup Container */
+.signup-container {
+    max-width: 600px;
+    margin: 80px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid #28a745; 
+}
+
+/* Form Styling */
+.signup-form label {
+     font-weight: 500;
+} 
+
+
+.signup-form input,
+.signup-form select {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 100%;
+}
+
+
+.signup-form button {
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.preference-container {
+    max-width: 600px; /* Ensures good spacing */
+    margin-top: 60px !important;
+    padding: 20px;
+    background: #f8f9fa; /* Light background */
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.preference-container h2 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Grid Layout: 3 buttons per row */
+.d-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    gap: 12px; /* Space between items */
+    justify-items: center;
+    align-items: center;
+}
+
+/* Hide default checkboxes */
+.btn-check {
+    display: none;
+}
+
+/* Button Styling */
+.btn-outline-primary {
+    font-size: 14px;
+    padding: 10px 16px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    border: 2px solid #007bff;
+    background: white;
+    color: #007bff;
+    width: 150px; /* Ensures equal width */
+    text-align: center;
+}
+
+/* Hover effect */
+.btn-outline-primary:hover {
+    background: #007bff;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+
+/* Checked State */
+.btn-check:checked + .btn-outline-primary {
+    background-color: #007bff;
+    color: white;
+    border-color: #0056b3;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+/* Submit Button */
+.btn-success {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
+}
+
+.btn-success:hover {
+    background: #218838;
+    box-shadow: 0 6px 15px rgba(40, 167, 69, 0.5);
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+    .d-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .d-grid {
+        grid-template-columns: repeat(1, 1fr); /* 1 column on very small screens */
+    }
+}
+
+
+
+
+
+
+
+/* // profile  */
+
+
+.profile-container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+    margin: 5rem auto;
+}
+
+
+.profile-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
+.profile-label {
+    display: block;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+
+.profile-input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.digest-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+
+.profile-btn {
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 16px;
+}
+
+.profile-btn:hover {
+    background-color: #0056b3;
+}
+
+
+.logout-btn {
+    display: inline-block;
+    margin-top: 15px;
+    color: red;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.logout-btn:hover {
+    text-decoration: underline;
+}
+
+
+
+
+
+/* dark mode  */
+
+/* Default Light Mode */
+
+  /* Dark Mode */
+  .dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+  
+  /* Navbar */
+  .dark-mode .navbar {
+    background-color: #1f1f1f !important;
+    border-bottom: 1px solid #333;
+  }
+  
+  .dark-mode .navbar a {
+    color: #e0e0e0 !important;
+  }
+  
+  .dark-mode .navbar-toggler-icon {
+    filter: invert(1);
+  }
+  
+  /* Dropdown Menu */
+  .dark-mode .dropdown-menu {
+    background-color: #333;
+    border: 1px solid #444;
+  }
+  
+  .dark-mode .dropdown-item {
+    color: #e0e0e0 !important;
+  }
+  
+  .dark-mode .dropdown-item:hover {
+    background-color: #444;
+  }
+  
+  /* Cards / Articles */
+  .dark-mode .card {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    border: 1px solid #333;
+  }
+  
+  .dark-mode .card a {
+    color: #90caf9;
+  }
+  
+  /* Buttons */
+  .dark-mode .btn-outline-success {
+    border-color: #90caf9;
+    color: #90caf9;
+  }
+  
+  .dark-mode .btn-outline-success:hover {
+    background-color: #90caf9;
+    color: #121212;
+  }
+  
+  /* Forms & Inputs */
+  .dark-mode input,
+  .dark-mode textarea,
+  .dark-mode select {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+  }
+  
+  .dark-mode input::placeholder {
+    color: #bbb;
+  }
+  
+  /* Links */
+  .dark-mode a {
+    color: #90caf9;
+  }
+  
+  /* Dark mode toggle switch */
+  .dark-mode .form-check-label {
+    color: #e0e0e0;
+  }
+  

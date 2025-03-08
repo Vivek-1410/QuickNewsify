@@ -1,0 +1,109 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top shadow-sm" id="navbar">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold text-success logo" href="/Home">
+      Quick<i class="fa-regular fa-newspaper" style="margin: 0 5px;"></i>Newsify
+    </a>
+    <button class="navbar-toggler" type="button" onclick="margin()" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="/Home?q=weather">Weather</a></li>
+        <li class="nav-item"><a class="nav-link" href="/Home?q=sports">Sports</a></li>
+        <li class="nav-item"><a class="nav-link" href="/Home?q=latest">Latest</a></li>
+      </ul>
+
+      <div class="d-flex align-items-center flex-wrap gap-2">
+        <% if (!currUser) { %> 
+          <a class="btn btn-outline-success btn-sm" href="/user/login">Log In</a>
+          <a class="btn btn-outline-success btn-sm" href="/user/signup">Sign Up</a>
+        <% } %>
+
+        <% if (currUser) { %>
+          <div class="dropdown me-2">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown">
+              <i class="fas fa-user-circle"></i> <%= currUser.username %>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="/user/profile"> Profile</a></li>
+              <li><a class="dropdown-item" href="/user/preferences"> Preferences</a></li>
+              <li><a class="dropdown-item" href="/Home/bookmarks/user/specific"> Saved Articles</a></li>
+              <li><a class="dropdown-item text-danger" href="/user/logout"> Log Out</a></li>
+            </ul>
+          </div>
+        <% } %>
+
+        <div class="form-check form-switch me-2">
+          <input class="form-check-input" type="checkbox" id="darkModeToggle">
+          <label class="form-check-label" for="darkModeToggle">
+            <i id="darkModeIcon" class="fa-solid fa-moon"></i>
+          </label>
+        </div>
+
+        <form class="d-flex needs-validation" novalidate role="search" method="GET" action="/Home">
+          <input class="form-control me-2 rounded-pill" type="search" placeholder="Search News" name="search" required>
+          <button class="btn btn-outline-success rounded-pill" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  @media (max-width: 768px) {
+    .navbar-nav {
+      text-align: center;
+    }
+    .d-flex.align-items-center {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .form-check.form-switch {
+      margin-top: 5px;
+    }
+    .btn {
+      width: 40%;
+      text-align: center;
+    }
+    .form-control {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  const darkModeToggle = document.getElementById("darkModeToggle");
+  const darkModeIcon = document.getElementById("darkModeIcon");
+  const body = document.body;
+
+  if (localStorage.getItem("theme") === "dark") {
+    body.classList.add("dark-mode");
+    darkModeToggle.checked = true;
+    darkModeIcon.classList.replace("fa-moon", "fa-sun");
+  }
+
+  darkModeToggle.addEventListener("change", () => {
+    if (darkModeToggle.checked) {
+      body.classList.add("dark-mode");
+      localStorage.setItem("theme", "dark");
+      darkModeIcon.classList.replace("fa-moon", "fa-sun");
+    } else {
+      body.classList.remove("dark-mode");
+      localStorage.setItem("theme", "light");
+      darkModeIcon.classList.replace("fa-sun", "fa-moon");
+    }
+  });
+
+  function margin() {
+        if (document.getElementById("navbar").style.marginBottom === "10rem") {
+          document.getElementById("navbar").style.marginBottom = "1rem";
+        } else {
+          document.getElementById("navbar").style.marginBottom = "10rem";
+          document.getElementById("container").style.backgroundColor = "whitesmoke";
+        }
+      }
+
+
+
+</script>

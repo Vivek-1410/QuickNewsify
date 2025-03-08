@@ -1,0 +1,155 @@
+<% layout("/layouts/boilerplate") -%>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">QuickNewsify</a>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="darkModeSwitch">
+            <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
+        </div>
+    </nav>
+
+    <div class="preference-container text-center m-auto">
+        <h2 class="mb-4 select">Select Your News Preferences</h2>
+        <form action="/user/preferences" method="POST">
+            <div class="d-grid gap-2">
+                <!-- Tech & Business -->
+                <input type="checkbox" class="btn-check" id="technology" name="categories" value="technology">
+                <label class="btn btn-outline-primary btn-sm" for="technology">Technology</label>
+
+                <input type="checkbox" class="btn-check" id="business" name="categories" value="business">
+                <label class="btn btn-outline-primary btn-sm" for="business">Business</label>
+
+                <input type="checkbox" class="btn-check" id="finance" name="categories" value="finance">
+                <label class="btn btn-outline-primary btn-sm" for="finance">Finance</label>
+
+                <input type="checkbox" class="btn-check" id="cryptocurrency" name="categories" value="cryptocurrency">
+                <label class="btn btn-outline-primary btn-sm" for="cryptocurrency">Cryptocurrency</label>
+
+                <!-- Entertainment & Lifestyle -->
+                <input type="checkbox" class="btn-check" id="entertainment" name="categories" value="entertainment">
+                <label class="btn btn-outline-primary btn-sm" for="entertainment">Entertainment</label>
+
+                <input type="checkbox" class="btn-check" id="fashion" name="categories" value="fashion">
+                <label class="btn btn-outline-primary btn-sm" for="fashion">Fashion</label>
+
+                <input type="checkbox" class="btn-check" id="lifestyle" name="categories" value="lifestyle">
+                <label class="btn btn-outline-primary btn-sm" for="lifestyle">Lifestyle</label>
+
+                <!-- Health & Science -->
+                <input type="checkbox" class="btn-check" id="health" name="categories" value="health">
+                <label class="btn btn-outline-primary btn-sm" for="health">Health</label>
+
+                <input type="checkbox" class="btn-check" id="science" name="categories" value="science">
+                <label class="btn btn-outline-primary btn-sm" for="science">Science</label>
+
+                <input type="checkbox" class="btn-check" id="climate" name="categories" value="climate">
+                <label class="btn btn-outline-primary btn-sm" for="climate">Climate</label>
+
+                <!-- Politics & World -->
+                <input type="checkbox" class="btn-check" id="politics" name="categories" value="politics">
+                <label class="btn btn-outline-primary btn-sm" for="politics">Politics</label>
+
+                <input type="checkbox" class="btn-check" id="world" name="categories" value="world">
+                <label class="btn btn-outline-primary btn-sm" for="world">World News</label>
+
+                <input type="checkbox" class="btn-check" id="military" name="categories" value="military">
+                <label class="btn btn-outline-primary btn-sm" for="military">Military & Defense</label>
+
+                <!-- Sports -->
+                <input type="checkbox" class="btn-check" id="sports" name="categories" value="sports">
+                <label class="btn btn-outline-primary btn-sm" for="sports">Sports</label>
+
+                <input type="checkbox" class="btn-check" id="esports" name="categories" value="esports">
+                <label class="btn btn-outline-primary btn-sm" for="esports">Esports</label>
+
+                <!-- Top 5 Economies -->
+                <input type="checkbox" class="btn-check" id="usa" name="categories" value="usa">
+                <label class="btn btn-outline-primary btn-sm" for="usa">USA News</label>
+
+                <input type="checkbox" class="btn-check" id="china" name="categories" value="china">
+                <label class="btn btn-outline-primary btn-sm" for="china">China News</label>
+
+                <input type="checkbox" class="btn-check" id="japan" name="categories" value="japan">
+                <label class="btn btn-outline-primary btn-sm" for="japan">Japan News</label>
+
+                <input type="checkbox" class="btn-check" id="germany" name="categories" value="germany">
+                <label class="btn btn-outline-primary btn-sm" for="germany">Germany News</label>
+
+                <input type="checkbox" class="btn-check" id="india" name="categories" value="india">
+                <label class="btn btn-outline-primary btn-sm" for="india">India News</label>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-sm mt-4 mb-4">Save Preferences</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const darkModeToggle = document.getElementById("darkModeSwitch");
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+                darkModeToggle.checked = true;
+            }
+            darkModeToggle.addEventListener("change", function () {
+                document.body.classList.toggle("dark-mode");
+                localStorage.setItem("darkMode", document.body.classList.contains("dark-mode") ? "enabled" : "disabled");
+            });
+        });
+    </script>
+
+    <style>
+        /* Default Light Mode Styles */
+        body {
+            background-color: #ffffff;
+            color: #333;
+        }
+        .preference-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn-outline-primary {
+            border-color: #007bff;
+            color: #007bff;
+        }
+        .btn-outline-primary:hover, .btn-check:checked + .btn-outline-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .select {
+            color: #e0e0e0;
+        }
+
+        .dark-mode .preference-container {
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+            border-color: #e0e0e0;
+        }
+        .dark-mode .btn-outline-primary {
+            border-color: #90caf9;
+            color: #90caf9;
+        }
+        .dark-mode .btn-outline-primary:hover, .dark-mode .btn-check:checked + .btn-outline-primary {
+            background-color: #90caf9;
+            color: #000;
+        }
+        .dark-mode .btn-success {
+            background-color: #28a745;
+        }
+    </style>
+</body>
