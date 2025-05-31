@@ -29,7 +29,7 @@ main()
     .then(() => console.log("Connection successful"))
     .catch((err) => console.log(err));
 
-const port = 5000;
+const port = 8080;
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -60,7 +60,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-cron.schedule("27 21 * * *", async () => {
+cron.schedule("00 08 * * *", async () => {
     console.log("Running Daily Digest Job...");
     await dailydigest();
 });
