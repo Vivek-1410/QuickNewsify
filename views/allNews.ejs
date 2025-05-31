@@ -1,181 +1,228 @@
 <% layout("/layouts/boilerplate") -%>
 <body>
-    <div class="container" style="max-width: 100%;">
+  <div class="container py-5">
 
-        <% if (currUser && currUser.preferences && currUser.preferences.length > 0) { %>
-            <div class="query-container glass-effect text-center">
-                <span class="query-title">Your Personalized News Feed:</span>
-                <div class="query-content mt-2">
-                    <% currUser.preferences.forEach(topic => { %> 
-                        <span class="query-badge badge bg-primary text-white px-3 py-2 me-2 rounded-pill">
-                            <%= topic.trim() %>
-                        </span>
-                    <% }); %>
-                </div>
-            </div>
-        <% } else { %>
-            <div class="query-container glass-effect text-center">
-                <span class="query-title">INDIA - QuickNewsify</span>
-            </div>
-        <% } %>
-        
-        <div class="row g-4">
-            <% for (data of newsData) { %>
-                <div class="col-12 col-sm-6 col-md-4">
-                    <div class="card h-100 shadow-sm border-0 rounded-4 news-card">
-                        <div class="position-relative">
-                            <a href="/Home/<%= data._id %>">
-                                <div class="image-container">
-                                    <img 
-                                        src="<%= data.urlToImage %>" 
-                                        class="card-img-top img-fluid news-image" 
-                                        alt="News Image">
-                                    <div class="image-overlay"></div>
-                                </div>
-                            </a>
-                            <a href="/Home/bookmarks/<%= data._id %>"> 
-                                <i class="fa-regular fa-bookmark bookmark-icon"></i>
-                            </a>
-                        </div>
-                        
-                        <div class="card-body d-flex flex-column flex-grow-1">
-                            <h5 class="card-title text-truncate" title="<%= data.title %>">
-                                <%= data.title %>
-                            </h5>
-                            <p class="card-text text-muted">
-                                <%= data.description %>
-                            </p>
-                        </div>
-
-                        <div class="text-center mt-4 mb-4">
-                            <a href="/Home/<%= data._id%>" target="_blank" class="btn btn-success btn-discover fw-normal">
-                                Explore Further...
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            <% } %>
+    <% if (currUser && currUser.preferences && currUser.preferences.length > 0) { %>
+      <div class="query-container glass-effect text-center mb-4">
+        <h2 class="query-title mb-3">Your Personalized News Feed</h2>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+          <% currUser.preferences.forEach(topic => { %>
+            <span class="query-badge badge bg-primary text-white px-3 py-2 rounded-pill">
+              <%= topic.trim() %>
+            </span>
+          <% }); %>
         </div>
+      </div>
+    <% } else { %>
+      <div class="query-container styled-query text-center mb-4">
+  <h2 class="query-title animated-underline">
+    <%= searchQuery ? searchQuery.toUpperCase() : "INDIA" %>
+  </h2>
+</div>
+
+    <% } %>
+
+    <div class="row g-4">
+      <% for (data of newsData) { %>
+        <div class="col-12 col-sm-6 col-md-4">
+          <div class="card h-100 shadow-lg border-0 rounded-4 news-card">
+            <div class="position-relative">
+              <a href="/Home/<%= data._id %>">
+                <div class="image-container">
+                  <img 
+                    src="<%= data.urlToImage %>" 
+                    class="card-img-top img-fluid news-image" 
+                    alt="News Image" loading="lazy">
+                  <div class="image-overlay"></div>
+                </div>
+              </a>
+              <a href="/Home/bookmarks/<%= data._id %>"> 
+                <i class="fa-regular fa-bookmark bookmark-icon"></i>
+              </a>
+            </div>
+
+            <div class="card-body d-flex flex-column flex-grow-1">
+              <h5 class="card-title text-truncate" title="<%= data.title %>">
+                <%= data.title %>
+              </h5>
+              <p class="card-text overflow-hidden" style="max-height: 4.5em;">
+                <%= data.description %>
+              </p>
+            </div>
+
+            <div class="text-center mb-3">
+              <a href="/Home/<%= data._id %>" target="_blank" class="btn btn-green btn-discover fw-semibold">
+                Read more &rightarrow;
+              </a>
+            </div>
+          </div>
+        </div>
+      <% } %>
     </div>
+  </div>
 
-    <style>
-        
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const darkModeToggle = document.getElementById("darkModeSwitch");
+      if (localStorage.getItem("darkMode") === "disabled") {
+        document.body.classList.add("dark-mode");
+        if (darkModeToggle) darkModeToggle.checked = true;
+      } else {
+        document.body.classList.remove("dark-mode");
+        if (darkModeToggle) darkModeToggle.checked = false;
+      }
+      if (darkModeToggle) {
+        darkModeToggle.addEventListener("change", function () {
+          document.body.classList.toggle("dark-mode");
+          localStorage.setItem("darkMode", document.body.classList.contains("dark-mode") ? "enabled" : "disabled");
+        });
+      }
+    });
+  </script>
 
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin: auto;
-            max-width: 90%;
-        }
-
-
-        .query-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #222;
-        }
-
-        .query-container {
-            margin-top: 5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .news-image {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            transition: transform 0.3s ease-in-out;
-        }
-        .image-container:hover .news-image {
-            transform: scale(1.05); 
-        } 
-        .image-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.7));
-            border-radius: 12px;
-        }
-        .bookmark-icon {
-            font-size: 1.2rem;
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            padding: 10px;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1), -4px -4px 10px rgba(255, 255, 255, 1);
-            transition: all 0.3s ease;
-        }
-        .bookmark-icon:hover {
-            background: #ff9800;
-            color: white;
-        }
-        .btn-discover {
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            width: 60%;
-        }
-        .btn-discover::before {
-            content: "→";
-            position: absolute;
-            right: -20px;
-            opacity: 0;
-            transition: right 0.3s ease, opacity 0.3s ease;
-        }
-        .btn-discover:hover::before {
-            right: 10px;
-            opacity: 1;
-        }
-        .btn-discover:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
-        }
-        .news-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .news-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-        }
-
-
-    @media (max-width: 768px) {
-    .query-container {
-        width: 90%;
-        padding: 12px;
-        text-align: center;
+  <style>
+    body {
+      background-image: url("/map.jpg");
+      background-position: top;
+      background-repeat: repeat-y;
+      background-size: cover;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
+    .btn-green {
+      background: #2E7D32;
+      color: white;
+      max-width: fit-content;
+    }
     .query-title {
-        font-size: 1.3rem; /* Reduce title font size */
+      font-size: 2rem;
+      font-weight: 700;
+      color: #222;
+    }
+    .news-image {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      transition: transform 0.3s ease-in-out;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+    .image-container:hover .news-image {
+      transform: scale(1.05); 
+    }
+    .image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.05);
     }
 
-    .query-content {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 5px; /* Reduce gap */
-    }
+    /* Make the query container fixed at the top */
+.query-container.styled-query {
+  position: sticky;
+  top: 60px;
+  z-index: 999;
+  background: linear-gradient(135deg, #e8f5e9, #ffffff);
+  border: 2px solid #2E7D32;
+  border-radius: 0 0 16px 16px;
+  padding: 15px;
+  margin-bottom: 1rem;
+  box-shadow: 0 6px 20px rgba(46, 125, 50, 0.15);
+  transition: all 0.3s ease-in-out;
+}
 
-    .query-badge {
-        font-size: 0.8rem; /* Reduce badge font size */
-        padding: 5px 10px;
-        border-radius: 6px;
-    }
+/* Optional: smooth animation on hover */
+.query-container.styled-query:hover {
+  box-shadow: 0 10px 30px rgba(46, 125, 50, 0.3);
+}
+
+/* Title underline effect */
+.animated-underline {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2E7D32;
+  position: relative;
+  display: inline-block;
+}
+
+.animated-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 3px;
+  background-color: #2E7D32;
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease-in-out;
+}
+
+.animated-underline:hover::after {
+  transform: scaleX(1);
 }
 
 
-
-
-    </style>
+    .bookmark-icon {
+      font-size: 1.2rem;
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 10px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1), -4px -4px 10px rgba(255, 255, 255, 1);
+      transition: all 0.3s ease;
+    }
+    .bookmark-icon:hover {
+      background: #ff9800;
+      color: white;
+    }
+    .btn-discover {
+      padding: 12px 24px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      width: 70%;
+    }
+    .btn-discover:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(46, 125, 50, 0.5);
+    }
+    .news-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+      border-radius: 16px;
+    }
+    .news-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+    .query-container {
+      margin-top: 4rem;
+    }
+    @media (max-width: 768px) {
+      .query-title {
+        font-size: 1.5rem;
+      }
+      .btn-discover {
+        width: 100%;
+      }
+    }
+    body.dark-mode .news-card {
+      background: rgba(45, 45, 45, 0.9);
+      color: #f0f0f0;
+      border: 1px solid #444;
+    }
+    body.dark-mode .card-text,
+    body.dark-mode .card-title {
+      color: #fff;
+    }
+    body.dark-mode .query-badge {
+      background: #1976D2 !important;
+    }
+  </style>
 </body>

@@ -86,7 +86,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const darkModeToggle = document.getElementById("darkModeSwitch");
-            if (localStorage.getItem("darkMode") === "enabled") {
+            if (localStorage.getItem("darkMode") === "disabled") {
                 document.body.classList.add("dark-mode");
                 darkModeToggle.checked = true;
             }
@@ -102,12 +102,18 @@
         body {
             background-color: #ffffff;
             color: #333;
+    background-image: url("/map.jpg");
+    background-position: top;
+    background-repeat: repeat-y;
+    background-size: 100% 100vh;
         }
         .preference-container {
             background-color: #f8f9fa;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2.2rem !important;
+            margin-top: 2.2rem !important;
         }
         .btn-outline-primary {
             border-color: #007bff;

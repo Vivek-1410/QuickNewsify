@@ -17,6 +17,8 @@ module.exports.index = async (req, res) => {
     console.log("Search Query:", searchQuery);
 
     const searchedNews = [];
+    const featuredNews = [];
+
     async function showData() {
         const { franc } = await import("franc-min");
         const apiUrl = "https://newsapi.org/v2/everything";
@@ -27,6 +29,7 @@ module.exports.index = async (req, res) => {
         const apiKey = "81b2b38ac1b64422b1a15ed8c84cde15";  
         const pageSize = 50;
         const apiEndpoint = `${apiUrl}?q=${encodeURIComponent(searchQuery)}&from=${formattedDate}&sortBy=${sortBy}&apiKey=${apiKey}&pageSize=${pageSize}`;
+        
         let response;
         try {
             response = await axios.get(apiEndpoint);
@@ -41,27 +44,34 @@ module.exports.index = async (req, res) => {
         }
 
         finalData.articles.forEach(article => {
-            if (article.title && article.title !== '[Removed]' &&
+            if (
+                article.title && article.title !== '[Removed]' &&
                 article.url && article.url !== '[Removed]' &&
-                article.description && article.description !== '[Removed]') {
-                
+                article.description && article.description !== '[Removed]'
+            ) {
                 const combinedText = `${article.title} ${article.description} ${article.content || ''}`;
                 const langCode = franc(combinedText);
 
                 if (langCode === 'eng') {
-                    let dataFetched = {
+                    const dataFetched = {
                         source: article.source.name || "Unknown Source",
                         title: article.title,
                         description: article.description,
                         url: article.url,
-                        urlToImage: article.urlToImage || "No Image",
+                        urlToImage: article.urlToImage || "/default-news.jpg",
                         publishedAt: article.publishedAt || "No Date",
                         content: article.content || "No Content",
                         author: article.author || "Unknown Author"
                     };
 
+                    // Add to searchedNews
                     if (!searchedNews.some(news => news.url === article.url)) {
                         searchedNews.push(dataFetched);
+                    }
+
+                    // Add top 5 to featuredNews
+                    if (featuredNews.length < 5 && article.urlToImage) {
+                        featuredNews.push(dataFetched);
                     }
                 }
             }
@@ -69,16 +79,34 @@ module.exports.index = async (req, res) => {
     }
 
     await showData();
+
     if (searchedNews.length > 0) {
         await searchListing.deleteMany({});
         await searchListing.insertMany(searchedNews);
     }
+
     let data = await searchListing.find({});
-    if (!data) {
+    if (!data || data.length === 0) {
         data = await newsListing.find({});
     }
-    res.render("allNews.ejs", { newsData: data, searchQuery });
 
+    const trendingNews = await newsListing.find({}).limit(10).sort({ publishedAt: -1 });
+
+    res.render("allNews.ejs", {
+        newsData: data,
+        featuredNews,
+        trendingNews,
+        searchQuery,
+        currUser: req.user || null
+    });
+};
+
+module.exports.privacy = async (req, res) => {
+    res.render("privacy.ejs");
+}
+
+module.exports.terms = async (req, res) => {
+    res.render("terms.ejs");
 }
 
 
@@ -94,12 +122,6 @@ module.exports.show = async (req, res) => {
     let showNews = await newsListing.findById(objectId);
     if (!showNews) {
         showNews = await searchListing.findById(objectId);
-    }
-    if (!showNews) {
-        const bookmark = await Bookmark.findOne({ "news._id": objectId });
-        if (bookmark) {
-            showNews = bookmark.news; 
-        }
     }
 
     console.log(showNews);

@@ -1,9 +1,9 @@
-/* body {
-    background-image: url("/lorem.jpg");
+body {
+    background-image: url("/map.jpg");
     background-position: top;
     background-repeat: repeat-y;
-    background-size: 100% 100vh; */
-/* } */
+    background-size: 100% 100vh; 
+}
 
 
 
@@ -292,14 +292,11 @@ li {
 /* dark mode  */
 
 /* Default Light Mode */
-
-  /* Dark Mode */
   .dark-mode {
     background-color: #121212;
     color: #e0e0e0;
   }
   
-  /* Navbar */
   .dark-mode .navbar {
     background-color: #1f1f1f !important;
     border-bottom: 1px solid #333;
@@ -364,7 +361,7 @@ li {
   
   /* Links */
   .dark-mode a {
-    color: #90caf9;
+    color: #097133;
   }
   
   /* Dark mode toggle switch */

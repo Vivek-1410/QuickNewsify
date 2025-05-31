@@ -13,7 +13,10 @@ const userSchema = new Schema({
         required: true 
     },
     preferences: [String],
-    receiveDigest: { type: Boolean, default: false }
+    receiveDigest: { type: Boolean, default: false },
+    notes: [
+        
+    ]
 });
 
 userSchema.plugin(passportLocalMongoose);

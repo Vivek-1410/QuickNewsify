@@ -17,7 +17,6 @@ async function sendDailyDigest() {
                 newsQuery = { title: { $regex: new RegExp(preferences.join("|"), "i") } };
             }
 
-            // Fetch latest news (limit 5 articles)
             let newsList = await searchListing.find(newsQuery).limit(5);
 
             if (newsList.length === 0) {
@@ -46,10 +45,10 @@ async function sendDailyDigest() {
                 html: emailContent,
             });
 
-            console.log(`✅ Digest sent successfully to ${email}`);
+            console.log(`Digest sent successfully to ${email}`);
         }
     } catch (error) {
-        console.error("❌ Error sending daily digest:", error);
+        console.error("Error sending daily digest:", error);
     }
 }
 

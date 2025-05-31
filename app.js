@@ -18,6 +18,7 @@ const bookmarkRouter = require("./routes/bookmark.js");
 const userRouter = require("./routes/user.js");
 
 
+
 const MONGO_URL = "mongodb://127.0.0.1:27017/QuickNewsDB";
 
 async function main() {
@@ -28,7 +29,7 @@ main()
     .then(() => console.log("Connection successful"))
     .catch((err) => console.log(err));
 
-const port = 3000;
+const port = 5000;
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -59,7 +60,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-cron.schedule("58 19 * * *", async () => {
+cron.schedule("27 21 * * *", async () => {
     console.log("Running Daily Digest Job...");
     await dailydigest();
 });
@@ -77,6 +78,12 @@ updateNewsData("india");
 app.use("/Home/bookmarks", bookmarkRouter);
 app.use("/user", userRouter);
 
+
+app.use(express.static(path.join(__dirname, "client/build")));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+});
 
 
 app.listen(port, () => {

@@ -9,7 +9,15 @@ router.route("/")
         ListingController.index
     );
 
+router.route("/privacy")
+    .get(
+        ListingController.privacy
+    );
 
+router.route("/terms")
+    .get(
+        ListingController.terms
+    );
 
 router.route("/:id")
     .get(

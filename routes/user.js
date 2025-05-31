@@ -43,5 +43,15 @@ router.route("/preferences")
         userController.preferences
     );
 
+router.route("/savenotes")
+    .get(
+        userController.userNotes
+    );
+
+
+router.route("/savenotes/:id")
+    .post(
+        userController.saveuserNotes
+    );
 
 module.exports = router;

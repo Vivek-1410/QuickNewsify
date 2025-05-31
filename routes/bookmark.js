@@ -9,12 +9,10 @@ router.route("/user/specific")
     );
 
 
+
 router.route("/:id")
     .get(
         bookmarkController.bookmarkedNews
     );
-
-
-
 
 module.exports = router;

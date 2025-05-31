@@ -43,7 +43,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const darkModeToggle = document.getElementById("darkModeSwitch");
-            if (localStorage.getItem("darkMode") === "enabled") {
+            if (localStorage.getItem("darkMode") === "disabled") {
                 document.body.classList.add("dark-mode");
                 darkModeToggle.checked = true;
             }
@@ -59,7 +59,12 @@
         body {
             background-color: #ffffff;
             color: #333;
-        }
+
+    background-image: url("/map.jpg");
+    background-position: top;
+    background-repeat: repeat-y;
+    background-size: 100% 100vh;
+ }
         .profile-container {
             background-color: #f8f9fa;
             padding: 20px;

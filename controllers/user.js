@@ -1,4 +1,5 @@
 const {saveRedirectUrl, isLoggedIn} = require("../middleware.js");
+const User = require("../models/user.js");
 
 
 
@@ -106,4 +107,36 @@ module.exports.profile = async(req, res) => {
     }
     console.log(req.user);
     res.render("profile.ejs", { user: req.user });
+}
+
+
+module.exports.userNotes = async (req, res) => {
+    if (!req.user) {
+        return res.redirect("/user/login");
+    }
+    try {
+        let usernotes = await User.findById(req.user._id);
+        let notes = usernotes.notes;
+        res.render("notes.ejs", {notes});
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Internal Server Error");
+    }
+}
+
+module.exports.saveuserNotes = async (req, res) => {
+    if (!req.user) {
+        return res.redirect("/user/login");
+    }
+    try {
+        let id = req.params.id;
+        let user = await User.findById(req.user._id);
+        let newNote = req.body.userNotes;
+        user.notes.push(newNote);
+        user.save();
+        res.redirect(`/Home/${id}`);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Internal Server Error");
+    }
 }

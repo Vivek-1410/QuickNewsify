@@ -1,0 +1,44 @@
+<% layout("/layouts/boilerplate") %>
+<body>
+    <div class="d-flex flex-column min-vh-100">
+        <div class="container py-5 flex-grow-1">
+            <div class="d-flex justify-content-center mb-4">
+                <button class="btn btn-success w-50 fw-normal">Saved Notes</button>
+            </div>
+            <% if (notes.length === 0) { %>
+                <div class="alert alert-warning text-center" role="alert">
+                    No saved notes yet. Start adding some!
+                </div>
+            <% } else { %>
+                <ul class="list-group notes-list">
+                    <% for (let i = 0; i < notes.length; i++) { %>
+                        <li class="list-group-item shadow-sm p-3 mb-3 bg-white rounded">
+                            <%= notes[i] %>
+                        </li>
+                    <% } %>
+                </ul>
+            <% } %>
+        </div>
+    </div>
+
+    <style>
+        .container {
+            margin-top: 2rem;
+            flex-grow: 1;
+        }
+
+        .notes-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #07931c;
+            font-weight: bold;
+        }
+
+        button {
+            max-width: 300px;
+        }
+    </style>
+</body>
