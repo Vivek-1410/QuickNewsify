@@ -29,7 +29,7 @@ module.exports.bookmarkedNews = async (req, res) => {
         await newBookmark.save();
     }
 
-    res.redirect("/Home");
+    res.redirect("/");
 }
 
 module.exports.userBookmarks = async (req, res) => {

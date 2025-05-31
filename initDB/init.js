@@ -17,7 +17,6 @@ main()
         console.log(err);
     });
 
-// Insert data into the `newsListing` collection
 async function insertIntoDB(query = "india") {
     try {
         const data = await showData(query);
@@ -25,14 +24,14 @@ async function insertIntoDB(query = "india") {
         if (data.length > 0) {
             console.log(`Fetched ${data.length} news articles.`);
 
-            // Ensure no `_id` field is set in the data
+            
             const sanitizedData = data.map((item) => {
-                const { _id, ...rest } = item; // Remove `_id` if it exists
+                const { _id, ...rest } = item; 
                 return rest;
             });
 
-            await newsListing.deleteMany({}); // Clear the collection
-            await newsListing.insertMany(sanitizedData); // Insert sanitized data
+            await newsListing.deleteMany({}); 
+            await newsListing.insertMany(sanitizedData); 
             console.log("News listing database updated successfully.");
         } else {
             console.warn("No valid data fetched to update the news listing database.");

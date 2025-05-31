@@ -17,7 +17,6 @@ module.exports.index = async (req, res) => {
     console.log("Search Query:", searchQuery);
 
     const searchedNews = [];
-    const featuredNews = [];
 
     async function showData() {
         const { franc } = await import("franc-min");
@@ -64,14 +63,9 @@ module.exports.index = async (req, res) => {
                         author: article.author || "Unknown Author"
                     };
 
-                    // Add to searchedNews
+            
                     if (!searchedNews.some(news => news.url === article.url)) {
                         searchedNews.push(dataFetched);
-                    }
-
-                    // Add top 5 to featuredNews
-                    if (featuredNews.length < 5 && article.urlToImage) {
-                        featuredNews.push(dataFetched);
                     }
                 }
             }
@@ -90,12 +84,8 @@ module.exports.index = async (req, res) => {
         data = await newsListing.find({});
     }
 
-    const trendingNews = await newsListing.find({}).limit(10).sort({ publishedAt: -1 });
-
     res.render("allNews.ejs", {
         newsData: data,
-        featuredNews,
-        trendingNews,
         searchQuery,
         currUser: req.user || null
     });

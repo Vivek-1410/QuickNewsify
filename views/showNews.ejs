@@ -60,11 +60,11 @@
             <i class="fa-solid fa-note-sticky"></i>
         </button>
         <% if (currUser) { %>
-            <a href="/Home/bookmark/<%= showNews._id %>" class="action-btn" title="Save for later">
+            <a href="/bookmark/<%= showNews._id %>" class="action-btn" title="Save for later">
                 <i class="fa-regular fa-bookmark"></i>
             </a>
         <% } else { %>
-            <a href="/Home/login" class="action-btn" title="Login to bookmark">
+            <a href="/login" class="action-btn" title="Login to bookmark">
                 <i class="fa-regular fa-bookmark"></i>
             </a>
         <% } %>

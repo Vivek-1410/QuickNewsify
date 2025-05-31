@@ -12,7 +12,7 @@
     <div class="profile-container mb-3 mt-3 ">
         <h1 class="profile-title">Profile Settings</h1>
 
-        <!-- currUser Info Section -->
+        
         <form action="/update-profile" method="POST" class="profile-form">
             <label class="profile-label">Name:</label>
             <input type="text" name="name" class="profile-input" value="<%= currUser.name %>" required>
@@ -20,7 +20,7 @@
             <label class="profile-label">Email:</label>
             <input type="email" class="profile-input" value="<%= currUser.email %>" disabled>
 
-            <!-- Daily Digest Checkbox -->
+        
             <div class="digest-section">
                 <label class="profile-label">Receive Daily News Digest:</label>
                 <input type="checkbox" name="receiveDigest" id="digest-checkbox" <% if (currUser.receiveDigest) { %>checked<% } %>>
@@ -29,14 +29,14 @@
             <button type="submit" class="profile-btn">Save Changes</button>
         </form>
 
-        <!-- Change Password Section -->
+    
         <form action="/update-password" method="POST" class="password-form">
             <label class="profile-label">New Password:</label>
             <input type="password" name="newPassword" class="profile-input" required>
             <button type="submit" class="profile-btn">Update Password</button>
         </form>
 
-        <!-- Logout -->
+    
         <a href="/logout" class="logout-btn">Log Out</a>
     </div>
 
@@ -55,7 +55,7 @@
     </script>
 
     <style>
-        /* Light Mode Styles */
+    
         body {
             background-color: #ffffff;
             color: #333;

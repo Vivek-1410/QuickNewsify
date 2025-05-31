@@ -28,7 +28,7 @@ main()
     .then(() => console.log("Connection successful"))
     .catch((err) => console.log(err));
 
-const port = 8080;
+const port = 9090;
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -82,9 +82,14 @@ app.use((req, res, next) => {
 });
 
 
-app.use("/Home", newsListingRouter);
+app.get("/Home", (req, res) => {
+  res.redirect("/");
+});
+
+
+app.use("/", newsListingRouter);
 updateNewsData("india");
-app.use("/Home/bookmarks", bookmarkRouter);
+app.use("/bookmarks", bookmarkRouter);
 app.use("/user", userRouter);
 
 

@@ -9,6 +9,7 @@ router.route("/")
         ListingController.index
     );
 
+
 router.route("/privacy")
     .get(
         ListingController.privacy

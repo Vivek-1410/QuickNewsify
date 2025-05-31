@@ -27,7 +27,7 @@
         <div class="col-12 col-sm-6 col-md-4">
           <div class="card h-100 shadow-lg border-0 rounded-4 news-card">
             <div class="position-relative">
-              <a href="/Home/<%= data._id %>">
+              <a href="/<%= data._id %>">
                 <div class="image-container">
                   <img 
                     src="<%= data.urlToImage %>" 
@@ -36,7 +36,7 @@
                   <div class="image-overlay"></div>
                 </div>
               </a>
-              <a href="/Home/bookmarks/<%= data._id %>"> 
+              <a href="/bookmarks/<%= data._id %>"> 
                 <i class="fa-regular fa-bookmark bookmark-icon"></i>
               </a>
             </div>
@@ -51,7 +51,7 @@
             </div>
 
             <div class="text-center mb-3">
-              <a href="/Home/<%= data._id %>" target="_blank" class="btn btn-green btn-discover fw-semibold">
+              <a href="/<%= data._id %>" target="_blank" class="btn btn-green btn-discover fw-semibold">
                 Read more &rightarrow;
               </a>
             </div>

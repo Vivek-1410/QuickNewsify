@@ -12,7 +12,7 @@
                     <div class="col-md-4">
                         <div class="card h-100 shadow-sm border-0 rounded-3">
                             <div class="position-relative">
-                                <a href="/Home/<%= bookmark.news._id %>">
+                                <a href="/<%= bookmark.news._id %>">
                                     <img 
                                         src="<%= bookmark.news.urlToImage %>" 
                                         class="card-img-top img-fluid" 
@@ -21,7 +21,7 @@
                                 </a>
                                 
                                 <!-- Remove Bookmark Option -->
-                                <a href="/Home/remove-bookmark/<%= bookmark._id %>"> 
+                                <a href="/remove-bookmark/<%= bookmark._id %>"> 
                                     <i class="fa-solid fa-bookmark bookmark-icon"></i>
                                 </a> 
                             </div>
@@ -40,7 +40,7 @@
                             </div>
 
                             <div class="text-center mt-4 mb-4">
-                                <a href="/Home/<%= bookmark.news._id %>" target="_blank" class="btn btn-discover">
+                                <a href="/<%= bookmark.news._id %>" target="_blank" class="btn btn-discover">
                                     Read More
                                 </a>
                             </div>
@@ -56,7 +56,6 @@
     </div>
 
     <style>
-        /* Styles similar to allNews.ejs */
         .query-container {
             text-align: center;
             margin: 20px auto;

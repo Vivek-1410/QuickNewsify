@@ -9,7 +9,7 @@ module.exports.loginpage = async (req, res) => {
 
 
 module.exports.login = async (req, res) => {
-    let redirectUrl = res.locals.redirectUrl || "/Home";
+    let redirectUrl = res.locals.redirectUrl || "/";
     req.flash("success", "Welcome back!");
     res.redirect(redirectUrl);
 }
@@ -25,7 +25,7 @@ module.exports.signup = async (req, res, next) => {
 
         if (existingUser) {
             req.flash("error", "Email already registered!");
-            return res.redirect("/Home/signup");
+            return res.redirect("/signup");
         }
         
         receiveDigest = receiveDigest === "on";  
@@ -50,13 +50,13 @@ module.exports.signup = async (req, res, next) => {
                 return next(err);
             }
             req.flash("success", "Welcome to QuickNewsify!");
-            return res.redirect("/Home");
+            return res.redirect("/");
         });
 
     } catch (err) {
         console.error("Signup Error:", err);
         req.flash("error", err.message);
-        return res.redirect("/Home/signup");
+        return res.redirect("/signup");
     }
 };
 
@@ -67,14 +67,14 @@ module.exports.preferencePage = async(req, res) => {
 
 module.exports.preferences = async (req, res) => {
     if (!req.user) {
-        return res.redirect("/Home/login"); 
+        return res.redirect("/login"); 
     }
 
     let categories = req.body.categories;
 
     if (!categories || categories.length === 0) { 
         req.flash("error", "Please select at least one category.");
-        return res.redirect("/Home/preferences");
+        return res.redirect("/preferences");
     }
 
     let preference = "";
@@ -86,7 +86,7 @@ module.exports.preferences = async (req, res) => {
     req.user.preferences = preference;
     await req.user.save();
 
-    res.redirect("/Home");
+    res.redirect("/");
 }
 
 
@@ -96,14 +96,14 @@ module.exports.logout = (req, res, next) => {
             return next(err);
         }
         req.flash("success", "you are logged out!");
-        res.redirect("/Home");
+        res.redirect("/");
     })
 }
 
 
 module.exports.profile = async(req, res) => {
     if (!req.user) {
-        return res.redirect("/Home/login");
+        return res.redirect("/login");
     }
     console.log(req.user);
     res.render("profile.ejs", { user: req.user });
@@ -134,7 +134,7 @@ module.exports.saveuserNotes = async (req, res) => {
         let newNote = req.body.userNotes;
         user.notes.push(newNote);
         user.save();
-        res.redirect(`/Home/${id}`);
+        res.redirect(`/${id}`);
     } catch (err) {
         console.log(err);
         res.status(500).send("Internal Server Error");
