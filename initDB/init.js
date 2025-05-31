@@ -3,7 +3,7 @@ const newsListing = require("../models/newsListing.js");
 const { showData } = require("./data.js");
 const searchResults = require("../models/searchResults");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/QuickNewsDB";
+const MONGO_URL = process.env.ATLASDB_URL;
 
 async function main() {
     await mongoose.connect(MONGO_URL);

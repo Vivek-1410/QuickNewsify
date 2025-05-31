@@ -1,12 +1,15 @@
 {
+  "engines": {
+    "node": "20.11.0"
+  },
   "name": "quicknewsify",
   "version": "1.0.0",
   "description": "Your Daily Dose of News in a Flash",
   "main": "index.js",
   "scripts": {
-  "start": "node app.js",
-  "dev": "nodemon app.js"
-},
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
   "author": "Vivek Rai",
   "license": "ISC",
   "dependencies": {
@@ -14,6 +17,7 @@
     "axios": "^1.7.9",
     "concurrently": "^9.1.2",
     "connect-flash": "^0.1.1",
+    "connect-mongo": "^5.1.0",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "ejs-mate": "^4.0.0",
