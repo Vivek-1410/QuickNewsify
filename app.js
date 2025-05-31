@@ -28,7 +28,7 @@ main()
     .then(() => console.log("Connection successful"))
     .catch((err) => console.log(err));
 
-const port = 4050;
+const port = 8080;
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
