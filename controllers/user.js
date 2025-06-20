@@ -5,7 +5,6 @@ const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 
-
 module.exports.loginpage = async (req, res) => {
     res.render("login.ejs");
 }
@@ -28,7 +27,7 @@ module.exports.signup = async (req, res, next) => {
 
         if (existingUser) {
             req.flash("error", "Email already registered!");
-            return res.redirect("/signup");
+            return res.redirect("/user/signup");
         }
         
         receiveDigest = receiveDigest === "on";  
@@ -126,17 +125,18 @@ module.exports.resetPass = async (req, res) => {
     });
 
     if (!user) {
-        return res.send("Token expired or invalid");
+        req.flash("error", "Token expired or invalid");
+        return res.redirect("/user/forgot-password");
     }
 
-    user.password = req.body.password; 
+    await user.setPassword(req.body.password); 
     user.resetToken = undefined;
     user.resetTokenExpiry = undefined;
-
     await user.save();
-    res.send("Password updated! You can now log in.");
-}
 
+    req.flash("success", "Password updated! Please log in.");
+    res.redirect("/user/login");
+}
 
 
 module.exports.preferencePage = async(req, res) => {
