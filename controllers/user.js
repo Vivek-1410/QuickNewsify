@@ -1,5 +1,8 @@
 const {saveRedirectUrl, isLoggedIn} = require("../middleware.js");
 const User = require("../models/user.js");
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
+require("dotenv").config();
 
 
 
@@ -59,6 +62,81 @@ module.exports.signup = async (req, res, next) => {
         return res.redirect("/signup");
     }
 };
+
+module.exports.forgotPass = async(req, res) => {
+    res.render("forgotPassword.ejs");
+};
+
+
+
+module.exports.resetPasslink = async (req, res) => {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+        return res.send("No user with that email found.");
+    }
+
+    const token = crypto.randomBytes(32).toString("hex");
+    const expiry = Date.now() + 3600000; 
+
+    user.resetToken = token;
+    user.resetTokenExpiry = expiry;
+    await user.save();
+
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
+        }
+    });
+
+    const resetLink = `https://quicknewsify.onrender.com/user/reset-password/${token}`;
+
+
+    await transporter.sendMail({
+        to: user.email,
+        from: "no-reply@quicknewsify.com",
+        subject: "Password Reset Link",
+        html: `<p>Click below to reset your password:</p><a href="${resetLink}">${resetLink}</a>`
+    });
+
+    res.send("Reset link sent to your email.");
+}
+
+
+module.exports.resetPassform = async (req, res) => {
+    const user = await User.findOne({
+        resetToken: req.params.token,
+        resetTokenExpiry: { $gt: Date.now() }
+    });
+
+    if (!user) {
+        return res.send("Token expired or invalid");
+    }
+
+    res.render("resetPassword.ejs", { token: req.params.token });
+}
+
+module.exports.resetPass = async (req, res) => {
+    const user = await User.findOne({
+        resetToken: req.params.token,
+        resetTokenExpiry: { $gt: Date.now() }
+    });
+
+    if (!user) {
+        return res.send("Token expired or invalid");
+    }
+
+    user.password = req.body.password; 
+    user.resetToken = undefined;
+    user.resetTokenExpiry = undefined;
+
+    await user.save();
+    res.send("Password updated! You can now log in.");
+}
+
 
 
 module.exports.preferencePage = async(req, res) => {

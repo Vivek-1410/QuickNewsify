@@ -24,11 +24,28 @@ router.route("/signup")
         userController.signup
     );
 
+router.route("/forgot-password")
+    .get(
+        userController.forgotPass
+    )
+    .post(
+        userController.resetPasslink
+    );
+
+router.route("/reset-password/:token")
+    .get(
+        userController.resetPassform
+    )
+    .post(
+        userController.resetPass
+    )
+
 
 router.route("/logout")
     .get(
         userController.logout
     );
+    
 
 router.route("/profile")
     .get(

@@ -16,7 +16,13 @@ const userSchema = new Schema({
     receiveDigest: { type: Boolean, default: false },
     notes: [
         
-    ]
+    ],
+    resetToken: {
+        type: String
+    },
+    resetTokenExpiry: {
+        type: Date 
+    }
 });
 
 userSchema.plugin(passportLocalMongoose);

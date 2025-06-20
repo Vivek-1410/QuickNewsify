@@ -7,12 +7,15 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="?q=weather">Weather</a></li>
-        <li class="nav-item"><a class="nav-link" href="?q=sports">Sports</a></li>
-        <li class="nav-item"><a class="nav-link" href="?q=latest">Latest</a></li>
-      </ul>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <% if (!currUser || !currUser.preferences || currUser.preferences.length === 0) { %>
+            <li class="nav-item"><a class="nav-link" href="?q=weather">Weather</a></li>
+            <li class="nav-item"><a class="nav-link" href="?q=sports">Sports</a></li>
+            <li class="nav-item"><a class="nav-link" href="?q=latest">Latest</a></li>
+          <% } %>
+        </ul>
+
 
       <div class="d-flex align-items-center flex-wrap gap-2">
         <% if (!currUser) { %> 
