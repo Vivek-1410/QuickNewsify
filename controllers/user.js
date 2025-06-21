@@ -57,7 +57,7 @@ module.exports.signup = async (req, res, next) => {
                 return next(err);
             }
             req.flash("success", "Welcome to QuickNewsify!");
-            return res.redirect(req.get("Referrer") || "/");
+            return res.redirect("/");
 
         });
 
