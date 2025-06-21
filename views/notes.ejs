@@ -11,11 +11,19 @@
                 </div>
             <% } else { %>
                 <ul class="list-group notes-list">
-                    <% for (let i = 0; i < notes.length; i++) { %>
+                    <% notes.forEach(note => { %>
                         <li class="list-group-item shadow-sm p-3 mb-3 bg-white rounded">
-                            <%= notes[i] %>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span><%= note.content %></span>
+                                <div>
+                                    <a href="/user/edit-note/<%= note._id %>" class="btn btn-sm btn-outline-success"><i class="fa-solid fa-pen"></i></a>
+                                    <form action="/user/delete-note/<%= note._id %>" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+                                    </form>
+                                </div>
+                            </div>
                         </li>
-                    <% } %>
+                    <% }); %>
                 </ul>
             <% } %>
         </div>

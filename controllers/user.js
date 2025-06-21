@@ -4,6 +4,11 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
+const mongoose = require("mongoose");
+const newsListing = require("../models/newsListing");
+const searchListing = require("../models/searchResults");
+const Bookmark = require("../models/bookmark");
+
 
 module.exports.loginpage = async (req, res) => {
     res.render("login.ejs");
@@ -52,7 +57,8 @@ module.exports.signup = async (req, res, next) => {
                 return next(err);
             }
             req.flash("success", "Welcome to QuickNewsify!");
-            return res.redirect("/");
+            return res.redirect(req.get("Referrer") || "/");
+
         });
 
     } catch (err) {
@@ -185,36 +191,103 @@ module.exports.profile = async(req, res) => {
     }
     console.log(req.user);
     res.render("profile.ejs", { user: req.user });
-}
-
+};
 
 module.exports.userNotes = async (req, res) => {
     if (!req.user) {
         return res.redirect("/user/login");
     }
+
     try {
-        let usernotes = await User.findById(req.user._id);
-        let notes = usernotes.notes;
-        res.render("notes.ejs", {notes});
+        const user = await User.findById(req.user._id);
+        const notes = user.notes || [];
+        res.render("notes.ejs", { notes });
     } catch (err) {
-        console.log(err);
+        console.error("Error fetching user notes:", err);
         res.status(500).send("Internal Server Error");
     }
-}
+};
 
 module.exports.saveuserNotes = async (req, res) => {
-    if (!req.user) {
-        return res.redirect("/user/login");
-    }
+    if (!req.user) return res.redirect("/user/login");
+
     try {
-        let id = req.params.id;
-        let user = await User.findById(req.user._id);
-        let newNote = req.body.userNotes;
-        user.notes.push(newNote);
-        user.save();
-        res.redirect(`/${id}`);
+        const id = req.params.id;
+        const newNote = req.body.userNotes?.trim();
+        if (!newNote) return res.redirect("back");
+
+        const user = await User.findById(req.user._id);
+
+        let newsExists = null;
+
+        // Check in normal listings and search listings
+        if (mongoose.Types.ObjectId.isValid(id)) {
+            newsExists = await newsListing.findById(id) || await searchListing.findById(id);
+
+            // Check bookmarks
+            if (!newsExists) {
+                const bookmark = await Bookmark.findById(id);
+                if (bookmark && bookmark.news && bookmark.news._id) {
+                    newsExists = true; // Mark as found
+                }
+            }
+        }
+
+        if (!newsExists) {
+            return res.status(404).send("News not found");
+        }
+
+        // Push the note into user's array
+        user.notes.push({
+            newsId: id,
+            content: newNote,
+            savedAt: new Date()
+        });
+
+        await user.save();
+
+        res.redirect("back");
     } catch (err) {
-        console.log(err);
+        console.error("Note saving error:", err);
         res.status(500).send("Internal Server Error");
     }
-}
+};
+
+
+module.exports.editNoteForm = async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findById(req.user._id);
+
+    const note = user.notes.id(id);
+    if (!note) return res.status(404).send("Note not found");
+
+    res.render("editNote.ejs", { note });
+};
+
+
+module.exports.updateNote = async (req, res) => {
+    const { id } = req.params;
+    const updatedContent = req.body.content?.trim();
+
+    if (!updatedContent) return res.redirect("/user/savenotes");
+
+    const user = await User.findById(req.user._id);
+    const note = user.notes.id(id);
+    if (!note) return res.status(404).send("Note not found");
+
+    note.content = updatedContent;
+    await user.save();
+
+    res.redirect("/user/savenotes");
+};
+
+
+module.exports.deleteNote = async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findById(req.user._id);
+
+    user.notes.id(id).deleteOne();
+    await user.save();
+
+    res.redirect("/user/savenotes");
+};

@@ -14,9 +14,18 @@ const userSchema = new Schema({
     },
     preferences: [String],
     receiveDigest: { type: Boolean, default: false },
+    preferredLanguage: {
+        type: String
+    },
     notes: [
-        
-    ],
+  {
+    newsId: { type: mongoose.Schema.Types.ObjectId, required: true },
+    content: { type: String, required: true },
+    savedAt: { type: Date, default: Date.now }
+  }
+],
+
+
     resetToken: {
         type: String
     },

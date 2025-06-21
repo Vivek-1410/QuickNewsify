@@ -71,4 +71,11 @@ router.route("/savenotes/:id")
         userController.saveuserNotes
     );
 
+router.route("/edit-note/:id")
+    .get(userController.editNoteForm)
+    .post(userController.updateNote);
+
+router.post("/delete-note/:id", userController.deleteNote);
+
+
 module.exports = router;

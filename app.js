@@ -28,7 +28,7 @@ main()
     .then(() => console.log("Connection successful"))
     .catch((err) => console.log(err));
 
-const port = 8080;
+const port = 8090;
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -75,6 +75,12 @@ cron.schedule("00 08 * * *", async () => {
 });
 
 app.use((req, res, next) => {
+  res.locals.lang = req.query.lang || "en"; 
+  next();
+});
+
+
+app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     res.locals.currUser = req.user;
@@ -92,12 +98,6 @@ updateNewsData("india");
 app.use("/bookmarks", bookmarkRouter);
 app.use("/user", userRouter);
 
-
-app.use(express.static(path.join(__dirname, "client/build")));
-
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client/build", "index.html"));
-});
 
 
 app.listen(port, () => {

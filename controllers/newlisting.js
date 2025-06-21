@@ -114,6 +114,7 @@ module.exports.show = async (req, res) => {
         showNews = await searchListing.findById(objectId);
     }
 
+
     console.log(showNews);
     
     if (!showNews) {
